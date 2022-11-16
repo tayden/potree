@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+  potree:
+    build: .
+    image: ghcr.io/hakaiinstitute/potree:latest
+    stdin_open: true
+    tty: true
+    restart: always
+    environment:
+      PORT: 9234
+    ports:
+      - "8080:9234"
+
