@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="808d6591-7d86-4298-bc12-f9ded5dbf6ab" name="hal9000">
+        <fileTransfer rootFolder="/home/taylor" accessType="SFTP" host="10.10.1.13" port="22" sshConfigId="85ec45c4-d738-4761-9505-da78b3306ecf" sshConfig="taylor@10.10.1.13:22 agent" authAgent="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
