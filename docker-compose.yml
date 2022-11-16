@@ -7,7 +7,7 @@ services:
     tty: true
     restart: always
     environment:
-      PORT: 9234
+      PORT: 80
     ports:
-      - "8080:9234"
+      - "9910:80"
 

@@ -6,7 +6,7 @@ server {
 
     # Rewrite to make local runs work.
     # In production, a proxy pass strips the app location from the location url
-    rewrite ^/viz/(.*)$ /$1 last;
+    rewrite ^/potree/(.*)$ /$1 last;
 
     #access_log  /var/log/nginx/host.access.log  main;
     # Expire rules for static content
