@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="Taylor Denouden">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Potree Viewer</title>
+    <title>Hakai Potree Viewer</title>
 
     <link rel="stylesheet" type="text/css" href="../build/potree/potree.css">
     <link rel="stylesheet" type="text/css" href="../libs/jquery-ui/jquery-ui.min.css">
@@ -67,7 +67,11 @@
     //viewer.toggleSidebar();
   });
 
-  Potree.loadPointCloud("http://10.10.1.13:9999/4031_Joffre/20_4031_01_Joffre_potree_full/metadata.json", "20_4031_01", function (e) {
+  // const cloudURL = "http://10.10.1.13:9999/4031_Joffre/20_4031_01_Joffre_potree_full/metadata.json"
+  const cloudURL = "https://hakai-potree-pointclouds.s3.amazonaws.com/20_4031_01_Joffre_potree_full/metadata.json"
+  const cloudName = "20_4031_01"
+
+  Potree.loadPointCloud(cloudURL, cloudName, function (e) {
     let scene = viewer.scene;
     let pointcloud = e.pointcloud;
     let material = pointcloud.material;
@@ -198,13 +202,13 @@
     // Add pointcloud
     scene.addPointCloud(pointcloud);
 
-    // viewer.fitToScreen(0.5)
 
     // In the browser console, use `viewer.scene.view.position` and `viewer.scene.view.getPivot()` to get these values
     viewer.scene.view.setView(
       [536027.6141150029, 5579004.798846446, 2765.7965761417954],  // position
       [536737.627758642, 5577660.95922916, 2058.6490965853054],  // target
     );
+    // viewer.fitToScreen(0.5)
   });
 
 </script>
