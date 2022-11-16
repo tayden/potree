@@ -50,7 +50,7 @@
 		viewer.setPointBudget(3_000_000);
 		viewer.loadSettingsFromURL();
 		viewer.setBackground("skybox");
-		viewer.setDescription(`Joffre Provincial Park (94.6M points)`);
+		viewer.setDescription(`Joffre Provincial Park (884M points)`);
 		viewer.setMinNodeSize(30);
 		viewer.setClassificationVisibility("7", false);
 		viewer.useHQ = true;
@@ -61,7 +61,7 @@
 			//viewer.toggleSidebar();
 		});
 
-		Potree.loadPointCloud("http://10.10.1.13:9999/4031_Joffre/20_4031_01_Joffre_potree/metadata.json", "20_4031_01", function(e){
+		Potree.loadPointCloud("http://10.10.1.13:9999/4031_Joffre/20_4031_01_Joffre_potree_full/metadata.json", "20_4031_01", function(e){
 			let scene = viewer.scene;
 			let pointcloud = e.pointcloud;
 			let material = pointcloud.material;
@@ -74,9 +74,11 @@
 			scene.addPointCloud(pointcloud);
 
 			// viewer.fitToScreen(0.5)
+
+			// In the browser console, use `viewer.scene.view.position` and `viewer.scene.view.getPivot()` to get these values
 			viewer.scene.view.setView(
-				[533669.4450476908, 5582158.441481664, 3516.40945154725],  // position
-				[535665.6864686558, 5578540.128578027, 2123.6172988968183],  // target
+				[536590.3352058601, 5578165.572398161, 1976.293665766226],  // position
+				[537204.3091829075, 5577243.866930343, 1763.6121195813143],  // target
 			);
 		});
 
