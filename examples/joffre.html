@@ -1,89 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-	<title>Potree Viewer</title>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Potree Viewer</title>
 
-	<link rel="stylesheet" type="text/css" href="../build/potree/potree.css">
-	<link rel="stylesheet" type="text/css" href="../libs/jquery-ui/jquery-ui.min.css">
-	<link rel="stylesheet" type="text/css" href="../libs/openlayers3/ol.css">
-	<link rel="stylesheet" type="text/css" href="../libs/spectrum/spectrum.css">
-	<link rel="stylesheet" type="text/css" href="../libs/jstree/themes/mixed/style.css">
+    <link rel="stylesheet" type="text/css" href="../build/potree/potree.css">
+    <link rel="stylesheet" type="text/css" href="../libs/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="../libs/openlayers3/ol.css">
+    <link rel="stylesheet" type="text/css" href="../libs/spectrum/spectrum.css">
+    <link rel="stylesheet" type="text/css" href="../libs/jstree/themes/mixed/style.css">
 </head>
 
 <body>
-	<script src="../libs/jquery/jquery-3.1.1.min.js"></script>
-	<script src="../libs/spectrum/spectrum.js"></script>
-	<script src="../libs/jquery-ui/jquery-ui.min.js"></script>
+<script src="../libs/jquery/jquery-3.1.1.min.js"></script>
+<script src="../libs/spectrum/spectrum.js"></script>
+<script src="../libs/jquery-ui/jquery-ui.min.js"></script>
 
-	<script src="../libs/other/BinaryHeap.js"></script>
-	<script src="../libs/tween/tween.min.js"></script>
-	<script src="../libs/d3/d3.js"></script>
-	<script src="../libs/proj4/proj4.js"></script>
-	<script src="../libs/openlayers3/ol.js"></script>
-	<script src="../libs/i18next/i18next.js"></script>
-	<script src="../libs/jstree/jstree.js"></script>
-	<script src="../build/potree/potree.js"></script>
-	<script src="../libs/plasio/js/laslaz.js"></script>
+<script src="../libs/other/BinaryHeap.js"></script>
+<script src="../libs/tween/tween.min.js"></script>
+<script src="../libs/d3/d3.js"></script>
+<script src="../libs/proj4/proj4.js"></script>
+<script src="../libs/openlayers3/ol.js"></script>
+<script src="../libs/i18next/i18next.js"></script>
+<script src="../libs/jstree/jstree.js"></script>
+<script src="../build/potree/potree.js"></script>
+<script src="../libs/plasio/js/laslaz.js"></script>
 <!--	<script src="../libs/other/stats.js"></script>-->
 
-	<!-- INCLUDE ADDITIONAL DEPENDENCIES HERE -->
-	<!-- INCLUDE SETTINGS HERE -->
+<!-- INCLUDE ADDITIONAL DEPENDENCIES HERE -->
+<!-- INCLUDE SETTINGS HERE -->
 
-	<div class="potree_container" style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; ">
-		<div id="potree_render_area"></div>
-		<div id="potree_sidebar_container"> </div>
-	</div>
+<div class="potree_container"
+     style="position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; ">
+    <div id="potree_render_area"></div>
+    <div id="potree_sidebar_container"></div>
+</div>
 
-	<script type="module">
+<script type="module">
 
-		window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
+  window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
 
-		const controls = new Potree.EarthControls(viewer);
+  viewer.setEDLEnabled(true);
+  viewer.setFOV(60);
+  viewer.setPointBudget(3_000_000);
+  viewer.loadSettingsFromURL();
+  viewer.setBackground("skybox");
+  viewer.setDescription(`Joffre Lakes Provincial Park (884M points)`);
+  viewer.setMinNodeSize(30);
+  viewer.setClassificationVisibility("7", false);
+  viewer.useHQ = true;
 
-		viewer.setControls(controls);
-		viewer.setEDLEnabled(true);
-		viewer.setFOV(60);
-		viewer.setPointBudget(3_000_000);
-		viewer.loadSettingsFromURL();
-		viewer.setBackground("skybox");
-		viewer.setDescription(`Joffre Provincial Park (884M points)`);
-		viewer.setMinNodeSize(30);
-		viewer.setClassificationVisibility("7", false);
-		viewer.useHQ = true;
+  viewer.loadGUI(() => {
+    viewer.setLanguage('en');
+    $("#menu_tools").next().show();
+    //viewer.toggleSidebar();
+  });
 
-		viewer.loadGUI(() => {
-			viewer.setLanguage('en');
-			$("#menu_tools").next().show();
-			//viewer.toggleSidebar();
-		});
-
-		Potree.loadPointCloud("http://10.10.1.13:9999/4031_Joffre/20_4031_01_Joffre_potree_full/metadata.json", "20_4031_01", function(e){
-			let scene = viewer.scene;
-			let pointcloud = e.pointcloud;
-			let material = pointcloud.material;
-			// material.size = 0.7;
-			material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
-			// material.shape = Potree.PointShape.CIRCLE;
-			// material.activeAttributeName = "elevation"
-			material.activeAttributeName = "rgba";
-
-			scene.addPointCloud(pointcloud);
-
-			// viewer.fitToScreen(0.5)
-
-			// In the browser console, use `viewer.scene.view.position` and `viewer.scene.view.getPivot()` to get these values
-			viewer.scene.view.setView(
-				[536590.3352058601, 5578165.572398161, 1976.293665766226],  // position
-				[537204.3091829075, 5577243.866930343, 1763.6121195813143],  // target
-			);
-		});
-
-	</script>
+  Potree.loadPointCloud("http://10.10.1.13:9999/4031_Joffre/20_4031_01_Joffre_potree_full/metadata.json", "20_4031_01", function (e) {
+    let scene = viewer.scene;
+    let pointcloud = e.pointcloud;
+    let material = pointcloud.material;
+    // material.size = 0.7;
+    material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+    // material.shape = Potree.PointShape.CIRCLE;
+    // material.activeAttributeName = "elevation"
+    material.activeAttributeName = "rgba";
 
 
-  </body>
+    /**
+     * Annotations
+     */
+    {
+      const upperJoffreLake = new Potree.Annotation({
+        position: [537203.7605912988, 5577466.773106497, 1573.0998614493744],
+        title: "Upper Joffre Lake",
+        cameraPosition: [536769.851130871, 5578803.526308661, 2683.0341099559128],
+        cameraTarget: [537011.3804309969, 5577559.705123198, 2040.0036516243645],
+      });
+
+      scene.annotations.add(upperJoffreLake);
+    }
+    {
+      const middleJoffreLake = new Potree.Annotation({
+        position: [536761.8825948747, 5577841.596442197, 1491.7600816706577],
+        title: "Middle Joffre Lake",
+        cameraPosition: [536381.0126596614, 5578529.075872096, 1892.230553702571],
+        cameraTarget: [536476.0912086732, 5578251.328819034, 1806.156828789964],
+      });
+
+      scene.annotations.add(middleJoffreLake);
+    }
+    {
+      const lowerJoffreLake = new Potree.Annotation({
+        position: [535765.6392846011, 5579528.971763436, 1231.4237199918912],
+        title: "Lower Joffre Lake",
+        cameraPosition: [535387.6648719576, 5580435.018668348, 1670.4658990108626],
+        cameraTarget: [535546.7120929206, 5578624.6747354185, 1308.873005250716],
+      });
+
+      scene.annotations.add(lowerJoffreLake);
+    }
+    {
+      const mattierGlacier = new Potree.Annotation({
+        position: [538822.2242480483, 5575920.170279111, 2263.784670706105],
+        title: "Mattier Glacier",
+        cameraPosition: [537632.6812292134, 5577099.615065596, 2655.2846785647403],
+        cameraTarget: [538121.2999794726, 5576412.582707214, 2311.039325384392],
+      });
+
+      scene.annotations.add(mattierGlacier);
+    }
+    {
+      const stonecropGlacier = new Potree.Annotation({
+        position: [537570.223799671, 5575631.582462676, 2399.1397279024077],
+        title: "Stonecrop Glacier",
+        cameraPosition: [537277.2671823344, 5576452.041763479, 2639.5669445292187],
+        cameraTarget: [537541.7998191415, 5575716.967395358, 2287.5608871905997],
+      });
+
+      scene.annotations.add(stonecropGlacier);
+    }
+    {
+      const tszilGlacier = new Potree.Annotation({
+        position: [536983.1833559398, 5575185.968101095, 2261.008065414005],
+        title: "Tszil Glacier",
+        cameraPosition: [536538.3786873671, 5576046.223077989, 2793.287720499961],
+        cameraTarget: [536922.1789208095, 5575218.088791287, 2182.1457287015264],
+      });
+
+      scene.annotations.add(tszilGlacier);
+    }
+    {
+      const joffrePeak = new Potree.Annotation({
+        position: [539451.4718129188, 5576722.691398626, 2712.9154377762693],
+        title: "Joffre Peak",
+        cameraPosition: [540326.2872674306, 5576865.1069418695, 3496.777348272716],
+        cameraTarget: [539500.6347344276, 5576647.776414055, 2645.3951446998544],
+      });
+
+      scene.annotations.add(joffrePeak);
+    }
+    {
+      const mattierPeak = new Potree.Annotation({
+        position: [539616.1719332384, 5575069.727028907, 2776.737490594893],
+        title: "Mattier Peak",
+        cameraPosition: [539770.6916558552, 5574194.6370866755, 3410.9094516275045],
+        cameraTarget: [539611.6296064293, 5575032.748383295, 2734.2181268881895],
+      });
+
+      scene.annotations.add(mattierPeak);
+    }
+    {
+      const mtChiefPascal = new Potree.Annotation({
+        position: [539306.0635677997, 5578802.1349766515, 2204.54100948224],
+        title: "Mt. Chief Pascal",
+        cameraPosition: [538516.8424189531, 5580566.994413125, 3224.057167674683],
+        cameraTarget: [538933.5124628113, 5578777.313834517, 2093.010939097123],
+      });
+
+      scene.annotations.add(mtChiefPascal);
+    }
+    {
+      const mtTaylor = new Potree.Annotation({
+        position: [535621.3442654072, 5575345.833127521, 2335.9177074182817],
+        title: "Mt. Taylor",
+        cameraPosition: [534689.4370909246, 5575167.551092642, 2842.392212967643],
+        cameraTarget: [535489.2344619597, 5575029.160577934, 2351.913277194206],
+      });
+
+      scene.annotations.add(mtTaylor);
+    }
+    {
+      const tszilMountain = new Potree.Annotation({
+        position: [536485.7723268874, 5574728.429058961, 2375.3479306585023],
+        title: "Tszil Mountain",
+        cameraPosition: [536006.4896837207, 5573930.283967657, 2745.6593375771627],
+        cameraTarget: [536411.1436897363, 5574572.225244412, 2267.0664895781565],
+      });
+
+      scene.annotations.add(tszilMountain);
+    }
+
+    // const controls = new Potree.EarthControls(viewer);
+    // viewer.setControls(controls);
+
+    // Add pointcloud
+    scene.addPointCloud(pointcloud);
+
+    // viewer.fitToScreen(0.5)
+
+    // In the browser console, use `viewer.scene.view.position` and `viewer.scene.view.getPivot()` to get these values
+    viewer.scene.view.setView(
+      [536027.6141150029, 5579004.798846446, 2765.7965761417954],  // position
+      [536737.627758642, 5577660.95922916, 2058.6490965853054],  // target
+    );
+  });
+
+</script>
+
+
+</body>
 </html>
