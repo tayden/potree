@@ -8,8 +8,6 @@ server {
     # In production, a proxy pass strips the app location from the location url
     rewrite ^/potree/(.*)$ /$1 last;
 
-    #access_log  /var/log/nginx/host.access.log  main;
-    # Expire rules for static content
     location / {
         sendfile on;
         sendfile_max_chunk 1m;

@@ -46,20 +46,23 @@
 </div>
 
 
-
 <script type="module">
 
   window.viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
 
-  viewer.setEDLEnabled(true);
+  const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  const mobile = mobileRegex.test(navigator.userAgent);
+  if (mobile) console.log('Using mobile settings');
+
+  viewer.setEDLEnabled(!mobile);
   viewer.setFOV(60);
-  viewer.setPointBudget(3_500_000);
+  viewer.setPointBudget(mobile ? 700 * 1000 : 3.5 * 1000 * 1000);
   viewer.loadSettingsFromURL();
   viewer.setBackground("skybox");
   viewer.setDescription(`Joffre Lakes Provincial Park (884M points)`);
   viewer.setMinNodeSize(30);
   viewer.setClassificationVisibility("7", false);
-  // viewer.useHQ = true;
+  viewer.useHQ = !mobile
 
   viewer.loadGUI(() => {
     viewer.setLanguage('en');
