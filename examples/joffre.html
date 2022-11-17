@@ -38,7 +38,7 @@
     <div class="hakai-logo"
          style="position: fixed; bottom: 10px; right: 10px; z-index: 100 ">
         <a href="https://hakai.org">
-            <img src="/static/Hakai Logo On Red No Tagline.JPG" width="100px">
+            <img src="../static/Hakai Logo On Red No Tagline.JPG" width="100px">
         </a>
     </div>
     <div id="potree_render_area"></div>
@@ -53,13 +53,13 @@
 
   viewer.setEDLEnabled(true);
   viewer.setFOV(60);
-  viewer.setPointBudget(3_000_000);
+  viewer.setPointBudget(2_000_000);
   viewer.loadSettingsFromURL();
   viewer.setBackground("skybox");
   viewer.setDescription(`Joffre Lakes Provincial Park (884M points)`);
   viewer.setMinNodeSize(30);
   viewer.setClassificationVisibility("7", false);
-  viewer.useHQ = true;
+  // viewer.useHQ = true;
 
   viewer.loadGUI(() => {
     viewer.setLanguage('en');

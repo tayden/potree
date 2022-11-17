@@ -9,5 +9,5 @@ services:
     environment:
       PORT: 80
     ports:
-      - "9910:80"
+      - "0.0.0.0:9910:80"
 
